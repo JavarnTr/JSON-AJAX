@@ -1,0 +1,46 @@
+//alert("Hello");
+//Data: assume we have a list of top 5 movies - a list of JAVASCRIPT Objects
+let topMovies = [{id: 0, title: "The Shawshank Redemption", year: 1994, image_url: "MEDIA/movie0.jpg"},
+				 {id: 1, title: "The Godfather ", year: 1972, image_url: "MEDIA/movie1.jpg"},
+				 {id: 2, title: "The Dark Knight", year: 2008, image_url: "MEDIA/movie2.jpg"},
+			     {id: 3, title: "12 Angry Men", year: 1957, image_url: "MEDIA/movie3.jpg"},
+			     {id: 4, title: " Schindler\'s List", year: 1993, image_url: "MEDIA/movie4.jpg"},
+				];
+
+//------------------------------------------------------------------------------------------------------
+//Question 1: Look at the above list of movie "Javascript" Objects, 
+//            do you see the different between "JSON" object and "Javascript" Object?
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//Load JSON File stored on web server at http://danieldangs.com/itwd6408/json/faqs.json
+let loadJSON = function() {
+	let proxy = 'https://cors-anywhere.herokuapp.com/';
+	let url = "http://danieldangs.com/itwd6408/json/faqs.json";
+	
+	let ourRequest = new XMLHttpRequest();
+	ourRequest.open('GET', proxy + url, true);
+	ourRequest.send();
+	
+	ourRequest.onload = function() {
+		if (ourRequest.status >= 200 && ourRequest.status < 400) {
+			let receivedData = JSON.parse(ourRequest.responseText);
+			renderHTML(receivedData);
+		} else {
+			console.log("Connected to the server but an error was returned");
+		}
+	};
+
+function renderHTML(data) {
+	let htmlString = "";
+	for (i = 0; i < data.length; i++) {
+		htmlString += "<h4>" + data[i].question + "</h4>";
+		htmlString += "<p>" + data[i].answer + "</p><br>";
+	}
+	document.getElementById("questions-list").innerHTML = htmlString;
+	}
+}
+
+loadJSON();
